@@ -2,7 +2,6 @@ import { v4 as uuidv4 } from 'uuid';
 
 const tasksReducer = (state = [], action) => {
     let newTask = {}
-    let i;
     let index;
     switch(action.type){
         case 'ADD_TASK':
