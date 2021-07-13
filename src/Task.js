@@ -51,11 +51,16 @@ class Task extends React.Component{
 
 
     }
+    componentDidMount(){
+    if(this.props.status=='edit'){
+        this.nameInput.focus(); 
+        } 
+     }
 
     ifEditing = () => {
         return(
             <form onSubmit={e => {e.preventDefault(); this.props.reverse_task(this.props.id, (this.state.editOfTask=='') ? null : this.state.editOfTask)}} className = "text-black">
-                <input type='text' onChange={(e) => this.setState({editOfTask: e.target.value})} value = {this.state.editOfTask} ref={'inputRef'} className="rounded-lg outline-none mt-1 pl-1 focus:ring-2 focus:ring-red-600"/>
+                <input type='text' onChange={(e) => this.setState({editOfTask: e.target.value})} value = {this.state.editOfTask} ref={(input)=>{this.nameInput = input}} className="rounded-lg outline-none mt-1 pl-1 focus:ring-2 focus:ring-red-600"/>
             </form>
  
         )
