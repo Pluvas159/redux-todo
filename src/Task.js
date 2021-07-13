@@ -52,17 +52,6 @@ class Task extends React.Component{
 
     }
 
-    /*useFocus = () => {
-        const htmlElRef = useRef(null)
-        const setFocus = () => {htmlElRef.current &&  htmlElRef.current.focus()}
-    
-        return [ htmlElRef, setFocus ] 
-    }*/
-
-   /* useEffect(() => {
-        if(status==='edit'){setInputFocus()}
-    })*/
-
     ifEditing = () => {
         return(
             <form onSubmit={e => {e.preventDefault(); this.props.reverse_task(this.props.id, (this.state.editOfTask=='') ? null : this.state.editOfTask)}} className = "text-black">
@@ -78,8 +67,6 @@ class Task extends React.Component{
 
 
     renderTask = () => {
-        //let status = this.status
-        //letfilter = this.filter
         if (this.props.status === 'completed') {
             if(this.props.filterOfTasks!=='SoftDeleted' && this.props.filterOfTasks!=='To do'){
                 return (

@@ -1,5 +1,4 @@
 import React from 'react'
-//import { useSelector, useDispatch } from 'react-redux'
 import Task from './Task.js'
 import { v4 as uuidv4 } from 'uuid';
 import TaskForm from './TaskForm.js'
@@ -10,8 +9,7 @@ class App extends React.Component {
   constructor(props){
     super()
   }
-  //const tasks = useSelector(state => state.tasks)
-  //const dispatch = useDispatch()
+
 
   render() {
     return (
