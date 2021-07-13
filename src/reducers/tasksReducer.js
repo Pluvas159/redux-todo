@@ -17,23 +17,28 @@ const tasksReducer = (state = [], action) => {
             return state.filter(task => task.id !== action.payload)
 
         case 'EDIT_TASK':
-            newTask = state.find(task => task.id === action.payload)
-            newTask.laststatus = newTask.status
-            newTask.status = 'edit'
-    
-            index = state.indexOf(newTask)
+            return state.map(task => {
+                if(task.id === action.payload){
+                    task.laststatus = task.status
+                    task.status = 'edit'
+                    return task
+                } 
+                return task;
+             })
 
-            return [...state.slice(0,index), newTask, ...state.slice(index+1, state.length)]
 
         case 'REVERSE_TASK':
-            newTask = state.find(task => task.id === action.payload.taskId)
-            console.log(newTask)
-            newTask.status = newTask.laststatus
-            newTask.text = (action.payload.changedText==null) ? newTask.text : action.payload.changedText
-            
-            index = state.indexOf(newTask)
+            return state.map(task => {
+                if (task.id === action.payload.taskId){
+                    task.status = task.laststatus
+                    task.text = (action.payload.changedText==null) ? newTask.text : action.payload.changedText
+                    return task
+                }
 
-            return [...state.slice(0,index), newTask, ...state.slice(index+1, state.length)]
+                return task;
+            })
+
+
 
             
 

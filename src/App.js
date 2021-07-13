@@ -15,7 +15,9 @@ class App extends React.Component {
     return (
       <div className="h-screen overflow-hidden">
         <header className="bg-yellow-400 grid place-items-center" >
-          <h1 className="font-mono font-bold text-4xl">TO-DO LIST</h1>
+          <a href={window.location.hostname}>
+            <h1 className="font-mono font-bold text-4xl">TO-DO LIST</h1>
+          </a>
           <h4>by Pluvas</h4>
         </header>
         <div className="grid place-items-center bg-gray-900 h-full w-screen break-words">
@@ -28,7 +30,7 @@ class App extends React.Component {
     );
   }
 }
-
+ 
 const mapStateToProps = state => ({
   tasks: state.tasks
 })
