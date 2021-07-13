@@ -33,3 +33,10 @@ export const change_task = (taskId, changeTo) => {
         payload: {taskId, changeTo}
     }
 }
+
+export const change_filter = (changeTo) => {
+    return {
+        type: 'CHANGE_FILTER',
+        payload: {changeTo}
+    }
+}

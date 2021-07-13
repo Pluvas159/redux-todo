@@ -1,21 +1,23 @@
-import React, { useState, useRef, useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import React from 'react'
 import { remove_task, edit_task, reverse_task, change_task } from './actions'
 import './index.css';
+import { connect } from 'react-redux';
 
 
-function Task({ status, text, id }) {
-    const tasks = useSelector(state => state.tasks)
-    const dispatch = useDispatch()
-    const [editOfTask, set_editOfTask] = useState('')
-
-    const ifNothing = () => {
+class Task extends React.Component{
+    constructor({ status, text, id, filterOfTasks }) {
+        super()
+        this.state = {
+            editOfTask : ''
+        }
+    }
+    ifNothing = () => {
         return (
-            <div className="w-full">
-                <p>{text}</p>
-                <button onClick={e => { e.preventDefault(); dispatch(change_task(id, 'completed')) }}
+            <div className="w-full font-semibold text-black pb-8 pl-1">
+                <p>{this.props.text}</p>
+                <button onClick={e => { e.preventDefault();this.props.change_task(this.props.id, 'completed') }}
                     className="float-right pl-1 pr-1 p-px rounded-lg text-black font-semibold bg-green-500 mr-2 hover:text-white " >complete</button>
-                <button class = "edit_button" onClick={e => { e.preventDefault(); dispatch(edit_task(id)) }}
+                <button class = "edit_button" onClick={e => { e.preventDefault(); this.props.edit_task(this.props.id) }}
                      >edit</button>
             </div>
         )
@@ -23,26 +25,26 @@ function Task({ status, text, id }) {
     }
 
 
-    const ifCompleted = () => {
+    ifCompleted = () => {
         return (
-            <div className="w-full text-green-600">
-                <p>{text}</p>
-                <button onClick={e => { e.preventDefault(); dispatch(change_task(id, 'softdeleted')) }}
+            <div className="w-full text-green-600 font-semibold pb-8 pl-1">
+                <p>{this.props.text}</p>
+                <button onClick={e => { e.preventDefault(); this.props.change_task(this.props.id, 'softdeleted') }}
                     className="float-right p-px pl-1 pr-1 rounded-lg text-black font-semibold mr-4 bg-red-500 hover:text-white" >delete</button>
-                <button class = "edit_button" onClick={e => { e.preventDefault(); dispatch(edit_task(id)) }}
+                <button class = "edit_button" onClick={e => { e.preventDefault(); this.props.edit_task(this.props.id) }}
                      >edit</button>
             </div>
         )
     }
 
 
-    const ifSoftDeleted = () => {
+    ifSoftDeleted = () => {
         return (
-            <div className="w-full">
-                <p className="line-through text-red-600">{text}</p>
-                <button onClick={e => { e.preventDefault(); dispatch(remove_task(id)) }}
+            <div className="w-full font-semibold text-black pb-8 pl-1">
+                <p className="line-through text-red-600">{this.props.text}</p>
+                <button onClick={e => { e.preventDefault(); this.props.remove_task(this.props.id) }}
                     className="float-right hover:text-white bg-purple-700 rounded-lg font-semibold p-px pl-2 pr-2" >remove</button>
-                <button class = "edit_button" onClick={e => { e.preventDefault(); dispatch(edit_task(id)) }}
+                <button class = "edit_button" onClick={e => { e.preventDefault(); this.props.edit_task(this.props.id) }}
                      >edit</button>
             </div>
         )
@@ -50,22 +52,21 @@ function Task({ status, text, id }) {
 
     }
 
-    const useFocus = () => {
+    /*useFocus = () => {
         const htmlElRef = useRef(null)
         const setFocus = () => {htmlElRef.current &&  htmlElRef.current.focus()}
     
         return [ htmlElRef, setFocus ] 
-    }
-    const [inputRef, setInputFocus] = useFocus()
+    }*/
 
-    useEffect(() => {
+   /* useEffect(() => {
         if(status==='edit'){setInputFocus()}
-    })
+    })*/
 
-    const ifEditing = () => {
+    ifEditing = () => {
         return(
-            <form onSubmit={e => {e.preventDefault(); dispatch(reverse_task(id, (editOfTask=='') ? null : editOfTask))}} className = "text-black">
-                <input type='text' onChange={(e) => set_editOfTask(e.target.value)} value = {editOfTask} ref={inputRef} className="rounded-lg outline-none mt-1 pl-1 focus:ring-2 focus:ring-red-600"/>
+            <form onSubmit={e => {e.preventDefault(); this.props.reverse_task(this.props.id, (this.state.editOfTask=='') ? null : this.state.editOfTask)}} className = "text-black">
+                <input type='text' onChange={(e) => this.setState({editOfTask: e.target.value})} value = {this.state.editOfTask} ref={'inputRef'} className="rounded-lg outline-none mt-1 pl-1 focus:ring-2 focus:ring-red-600"/>
             </form>
  
         )
@@ -76,33 +77,56 @@ function Task({ status, text, id }) {
 
 
 
-    const renderTask = () => {
-        if (status == 'completed') {
-            return (
-                ifCompleted())
+    renderTask = () => {
+        //let status = this.status
+        //letfilter = this.filter
+        if (this.props.status === 'completed') {
+            if(this.props.filterOfTasks!=='SoftDeleted' && this.props.filterOfTasks!=='To do'){
+                return (
+                    this.ifCompleted())
+                }
 
-        } else if (status == 'softdeleted') {
+        } else if (this.props.status === 'softdeleted') {
+            if(this.props.filterOfTasks!=='Completed' && this.props.filterOfTasks!=='To do'){
             return (
-                ifSoftDeleted())
+                this.ifSoftDeleted())
+            }
 
-        } else if (status == 'edit') {
+        } else if (this.props.status === 'edit') {
             return(
-                ifEditing()
+                this.ifEditing()
                 )
 
         } else {
+            if (this.props.filterOfTasks==='All' || this.props.filterOfTasks==='To do'){
             return (
-                ifNothing())
+                this.ifNothing())
         }
-
     }
-
+}
+    render(){
     return (
-        <div className = "font-semibold text-black pb-8 pl-1">
-        {renderTask()}
+        <div>
+        {this.renderTask()}
         </div>
     )
+    }
 }
 
+const mapStateToProps = state => ({
+    filterOfTasks : state.filterOfTasks
+  })
 
-export default Task
+  
+const mapDispatchToProps = dispatch => ({
+    remove_task: taskId => dispatch(remove_task(taskId)),
+    reverse_task: (taskId, changedText) => dispatch(reverse_task(taskId, changedText)),
+    edit_task: taskId => dispatch(edit_task(taskId)),
+    change_task: (taskId, changeTo) => dispatch(change_task(taskId, changeTo)),
+  })
+  
+  export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Task);
+  

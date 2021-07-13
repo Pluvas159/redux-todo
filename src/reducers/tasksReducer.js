@@ -27,6 +27,7 @@ const tasksReducer = (state = [], action) => {
 
         case 'REVERSE_TASK':
             newTask = state.find(task => task.id === action.payload.taskId)
+            console.log(newTask)
             newTask.status = newTask.laststatus
             newTask.text = (action.payload.changedText==null) ? newTask.text : action.payload.changedText
             
@@ -41,5 +42,6 @@ const tasksReducer = (state = [], action) => {
             return state
     }
 }
+
 
 export default tasksReducer
