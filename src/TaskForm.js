@@ -14,8 +14,8 @@ class TaskForm extends React.Component {
     render() {
         return(
         <div>
-            <form onSubmit={(e) => { e.preventDefault(); this.props.add_task(this.state.textInForm); this.setState((state) => (state.textInForm = '')) }} className="w-full bg-yellow-400">
-                <input type="Text" placeholder='What to do next?' value={this.state.textInForm} onChange={(e) => this.setState((state) => (state.textInForm = e.target.value))} id='task_input' autocomplete="off" ></input>
+            <form onSubmit={(e) => { e.preventDefault(); this.props.add_task(this.state.textInForm); this.setState({textInForm : ''});}} className="w-full bg-yellow-400">
+                <input type="Text" placeholder='What to do next?' value={this.state.textInForm} onChange={(e) => this.setState({textInForm : e.target.value})} id='task_input' autocomplete="off" ></input>
             </form>
             <div className="bg-yellow-400 ">
                 <DropdownButton title={this.props.filterOfTasks} menuAlign="left" id="filter_dropdown" variant=" pl-1 font-semibold hover:text-white">

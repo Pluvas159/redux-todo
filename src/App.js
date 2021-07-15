@@ -23,7 +23,8 @@ class App extends React.Component {
         <div className="grid place-items-center bg-gray-900 h-full w-screen break-words">
           <div className="h-3/5 w-4/5 lg:w-2/5 sm:3/5 bg-gray-200 overflow-y-auto">
             <TaskForm />
-            {this.props.tasks.map(task => <Task text={task.text} status={task.status} id={task.id} key={uuidv4()} />)}
+            {console.log(this.props.tasks)}
+            {this.props.tasks.map(task =>{if(task!==null){return <Task text={task.text} status={task.status} id={task.id} key={uuidv4()} />}})}
           </div>
         </div>
       </div>
