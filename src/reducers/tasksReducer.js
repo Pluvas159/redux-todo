@@ -10,7 +10,7 @@ const tasksReducer = (state =  [], action) => {
             //localStorage.setItem('tasks', JSON.stringify([...state, newTask]))
             return [...state, action.payload.newTask] 
 
-        case 'CHANGE_TASK':
+        case 'UPDATE_TODO_SUCCESS':
             //newTask = state.find(task => task.id === action.payload.taskId)
             //console.log(action.payload.changeTo)
             //action.payload.changeTo ? newTask.Cancel = true : newTask.State = true
@@ -21,8 +21,9 @@ const tasksReducer = (state =  [], action) => {
 
             return state.map(task => {
                 //console.log(task.Id, action.payload.taskId)
-                if (task.Id === action.payload.taskId){
-                    action.payload.changeTo ? task.Cancel = true : task.State = true
+                if (task.Id === action.payload.oldTask.Id){
+                    return action.payload.task
+                    //action.payload.changeTo ? task.Cancel = true : task.State = true
                 }
                 return task
             })

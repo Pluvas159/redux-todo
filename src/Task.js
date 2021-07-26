@@ -15,7 +15,7 @@ class Task extends React.Component{
         return (
             <div className="w-full font-semibold text-black pb-8 pl-1">
                 <p>{this.props.text}</p>
-                <button onClick={e => { e.preventDefault();this.props.change_task(this.props.Id, false) }}
+                <button onClick={e => { e.preventDefault(); this.props.change_task(this.props.tasks.find(task => task.Id === this.props.Id), false) }}
                     className="float-right pl-1 pr-1 p-px rounded-lg text-black font-semibold bg-green-500 mr-2 hover:text-white " >complete</button>
                 <button class = "edit_button" onClick={e => { e.preventDefault(); this.props.edit_task(this.props.Id) }}
                      >edit</button>
@@ -29,7 +29,7 @@ class Task extends React.Component{
         return (
             <div className="w-full text-green-600 font-semibold pb-8 pl-1">
                 <p>{this.props.text}</p>
-                <button onClick={e => { e.preventDefault(); this.props.change_task(this.props.Id, 'softdeleted') }}
+                <button onClick={e => { e.preventDefault(); this.props.change_task(this.props.tasks.find(task => task.Id === this.props.Id), 'softdeleted') }}
                     className="float-right p-px pl-1 pr-1 rounded-lg text-black font-semibold mr-4 bg-red-500 hover:text-white" >delete</button>
                 <button class = "edit_button" onClick={e => { e.preventDefault(); this.props.edit_task(this.props.Id) }}
                      >edit</button>
@@ -106,6 +106,7 @@ class Task extends React.Component{
 }
 
 const mapStateToProps = state => ({
+    tasks : state.tasks,
     filterOfTasks : state.filterOfTasks
   })
 

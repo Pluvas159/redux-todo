@@ -43,3 +43,19 @@ export const deleteTask = (Id) => {
     }
 
 }    
+
+export const updateTaskPut = async (Id, task) => {
+    try {
+        const response = await fetch(`http://localhost/todos-api/api/ToDos/${Id}`,
+        {
+            method: "PUT",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(task)
+        });
+        return await response.json()
+    } catch (e){
+        console.error("chyba" + e)
+    }
+}

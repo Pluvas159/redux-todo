@@ -1,4 +1,4 @@
-import { getToDosReq, createTaskPost } from "../BEConnection"
+import { getToDosReq, createTaskPost, updateTaskPut } from "../BEConnection"
 import { v4 as uuidv4 } from 'uuid';
 
 
@@ -17,11 +17,7 @@ export const add_task = (text) => {
             dispatch(addToDoFailure())
         }
     }
-    
-    return {
-        type: 'ADD_TASK',
-        payload: text
-    }
+
 }
 
 export const remove_task = (taskId) => {
@@ -46,10 +42,18 @@ export const reverse_task = (taskId, changedText) => {
     }
 }
 
-export const change_task = (taskId, changeTo) => {
-    return {
-        type: 'CHANGE_TASK',
-        payload: { taskId, changeTo }
+export const change_task = (task, changeTo) => {
+    let newTask = task;
+    changeTo ? newTask.Cancel = true: newTask.State = true;
+    
+    return async (dispatch) => {
+        try {
+            dispatch(updateToDoRequest())
+            newTask = await updateTaskPut(task.Id, newTask)
+            dispatch(updateToDoSuccess(newTask.Data, task))
+        } catch {
+            dispatch(updateToDoFailure())
+        }
     }
 }
 
@@ -81,19 +85,38 @@ const addToDoFailure = () => ({
     type: 'ADD_TASK_FAILURE'
 });
 
+
 const getToDoRequest = () => ({
     type: 'GET_TODO_REQUEST'
 });
+
 const getToDoSuccess = () => ({
     type: 'GET_TASK_SUCCESS'
 });
+
 const getToDoFailure = () => ({
     type: 'GET_TASK_FAILURE'
 });
 
+
+const updateToDoRequest = () => ({
+    type: 'UPDATE_TODO_REQUEST'
+});
+
+const updateToDoSuccess = (task, oldTask) => ({
+    type: 'UPDATE_TODO_SUCCESS',
+    payload: {
+        task, oldTask
+    }
+});
+
+const updateToDoFailure = () => ({
+    type: 'UPDATE_TODO_FAILURE'
+});
+
+
 const getToDosRequest = () => ({
     type: 'GET_TODOS_REQUEST'
-
 });
 
 const getToDosSuccess = (todos) => ({
