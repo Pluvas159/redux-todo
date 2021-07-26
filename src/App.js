@@ -3,12 +3,19 @@ import Task from './Task.js'
 import { v4 as uuidv4 } from 'uuid';
 import TaskForm from './TaskForm.js'
 import { connect } from 'react-redux';
-
+import { getToDos } from './actions'
+import { getToDosReq } from './BEConnection'
 
 class App extends React.Component {
   constructor(props){
     super()
   }
+
+ componentDidMount() {
+  this.props.getToDos()
+ }
+
+
 
 
   render() {
@@ -36,8 +43,11 @@ const mapStateToProps = state => ({
   tasks: state.tasks
 })
 
+const mapDispatchToProps = dispatch => ({
+  getToDos: (userId = 3) => dispatch(getToDos(userId))
+})
 
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(App);

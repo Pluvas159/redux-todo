@@ -1,3 +1,5 @@
+import { getToDosReq } from "../BEConnection"
+
 export const add_task = (text) => {
     return {
         type: 'ADD_TASK',
@@ -39,4 +41,43 @@ export const change_filter = (changeTo) => {
         type: 'CHANGE_FILTER',
         payload: {changeTo}
     }
+}
+
+export const addTasks = (tasks) => {
+    console.log(tasks)
+    return {
+        type: 'ADD_TASKS',
+        payload: {tasks}
+    }
+}
+
+const getToDosRequest = () => ({
+    type: 'GET_TODOS_REQUEST'
+
+});
+
+const getToDosSuccess = (todos) => ({
+    type: 'GET_TODOS_SUCCESS',
+    payload: {
+        todos
+    }
+
+});
+
+const getToDosFailure = () => ({
+    type: 'GET_TODOS_FAILURE'
+
+});
+
+
+export const getToDos = () =>  {
+    return async (dispatch) => {
+    try {
+        dispatch(getToDosRequest())
+        let todos = await getToDosReq()
+        dispatch(getToDosSuccess(todos.Data))
+        } catch (e) {
+            dispatch(getToDosFailure())
+        }
+    }   
 }
