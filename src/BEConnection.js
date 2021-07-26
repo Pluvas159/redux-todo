@@ -14,14 +14,20 @@ export const getToDosReq = async (userId) => {
             
     }
     
+export const createTaskPost = (task) => {
+    try {
+        fetch(`http://localhost/todos-api/api/ToDos`,
+        {
+            method: "POST",
+            mode: "cors",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(task)
+        })
+    } catch {
+        console.error("chyba")
+    }
+}
     
     
-    
-    /*.then((response) => {
-        if (response.status === 200) {
-            //console.log(response)
-            return response.json().then((data) => {/*add_Taskas(dta.Data)})
-        } else {
-            alert("Message failed to send.")
-        }
-    })*/
