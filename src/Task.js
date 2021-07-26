@@ -40,7 +40,7 @@ class Task extends React.Component{
 
     ifSoftDeleted = () => {
         return (
-            <div className="w-full font-semibold text-black pb-8 pl-1">
+            <div className="w-full font-semibold text-black pb-8 pl-1 pr-2">
                 <p className="line-through text-red-600">{this.props.text}</p>
                 <button onClick={e => { e.preventDefault(); this.props.remove_task(this.props.Id) }}
                     className="float-right hover:text-white bg-purple-700 rounded-lg font-semibold p-px pl-2 pr-2" >remove</button>

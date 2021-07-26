@@ -1,5 +1,5 @@
 import { getToDosReq, createTaskPost, updateTaskPut } from "../BEConnection"
-import { v4 as uuidv4 } from 'uuid';
+
 
 
 export const add_task = (text) => {
@@ -61,14 +61,6 @@ export const change_filter = (changeTo) => {
     return {
         type: 'CHANGE_FILTER',
         payload: { changeTo }
-    }
-}
-
-export const addTasks = (tasks) => {
-    console.log(tasks)
-    return {
-        type: 'ADD_TASKS',
-        payload: { tasks }
     }
 }
 
