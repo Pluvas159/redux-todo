@@ -1,20 +1,14 @@
 import { v4 as uuidv4 } from 'uuid';
-import { getToDos, createTaskPost } from '../BEConnection'
+import { createTaskPost, deleteTask } from '../BEConnection'
 //
 const tasksReducer = (state =  [], action) => {
     let newTask = {}
     let task;
-    switch(action.type){
-        case 'ADD_TASK':
-            newTask = {Name: action.payload,
-                State:false, Cancel:false, 
-                Description: action.payload,
-                Note: action.payload,
-                } 
-            createTaskPost(newTask)
+    switch (action.type){
+        case 'ADD_TASK_SUCCESS':
             //console.log(state)
             //localStorage.setItem('tasks', JSON.stringify([...state, newTask]))
-            return [...state, newTask] 
+            return [...state, action.payload.newTask] 
 
         case 'CHANGE_TASK':
             //newTask = state.find(task => task.id === action.payload.taskId)
@@ -35,6 +29,7 @@ const tasksReducer = (state =  [], action) => {
 
         case 'REMOVE_TASK':
             //localStorage.setItem('tasks', JSON.stringify(JSON.parse(localStorage.getItem('tasks')).filter(task => task.id !== action.payload)))
+            deleteTask(action.payload)
             return state.filter(task => task.Id !== action.payload)
 
         case 'EDIT_TASK':

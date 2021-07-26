@@ -14,9 +14,9 @@ export const getToDosReq = async (userId) => {
             
     }
     
-export const createTaskPost = (task) => {
+export const createTaskPost = async (task) => {
     try {
-        fetch(`http://localhost/todos-api/api/ToDos`,
+        const response = await fetch(`http://localhost/todos-api/api/ToDos`,
         {
             method: "POST",
             mode: "cors",
@@ -24,10 +24,22 @@ export const createTaskPost = (task) => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(task)
-        })
+        });
+        return await response.json()
     } catch {
         console.error("chyba")
     }
 }
     
-    
+export const deleteTask = (Id) => {
+    try {
+        fetch(`http://localhost/todos-api/api/ToDos/${Id}`,
+        {
+            method: "DELETE",
+            
+        });
+    } catch {
+        console.error("chyba")
+    }
+
+}    

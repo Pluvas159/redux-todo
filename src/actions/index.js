@@ -1,8 +1,23 @@
-import { getToDosReq } from "../BEConnection"
+import { getToDosReq, createTaskPost } from "../BEConnection"
 import { v4 as uuidv4 } from 'uuid';
 
 
 export const add_task = (text) => {
+    let newTask = {Name: text,
+        State:false, Cancel:false, 
+        Description: text,
+        Note: text,
+        } 
+    return async (dispatch) => {
+        try {
+            dispatch(addToDoRequest())
+            let task = await createTaskPost(newTask)
+            dispatch(addToDoSuccess(task.Data))
+        } catch {
+            dispatch(addToDoFailure())
+        }
+    }
+    
     return {
         type: 'ADD_TASK',
         payload: text
@@ -53,6 +68,29 @@ export const addTasks = (tasks) => {
     }
 }
 
+const addToDoRequest = () => ({
+    type: 'ADD_TODO_REQUEST'
+});
+
+const addToDoSuccess = (newTask) => ({
+        type: 'ADD_TASK_SUCCESS',
+        payload: {newTask}
+});
+
+const addToDoFailure = () => ({
+    type: 'ADD_TASK_FAILURE'
+});
+
+const getToDoRequest = () => ({
+    type: 'GET_TODO_REQUEST'
+});
+const getToDoSuccess = () => ({
+    type: 'GET_TASK_SUCCESS'
+});
+const getToDoFailure = () => ({
+    type: 'GET_TASK_FAILURE'
+});
+
 const getToDosRequest = () => ({
     type: 'GET_TODOS_REQUEST'
 
@@ -61,7 +99,7 @@ const getToDosRequest = () => ({
 const getToDosSuccess = (todos) => ({
     type: 'GET_TODOS_SUCCESS',
     payload: {
-        todos
+        todos: todos||[]
     }
 
 });

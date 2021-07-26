@@ -28,9 +28,11 @@ class App extends React.Component {
           <h4>by Pluvas</h4>
         </header>
         <div className="grid place-items-center bg-gray-900 h-full w-screen break-words">
-          <div className="h-3/5 w-4/5 lg:w-2/5 sm:3/5 bg-gray-200 overflow-y-auto">
+          <div className="h-3/5 w-4/5 lg:w-2/5 sm:3/5 bg-gray-200 overflow-auto">
             <TaskForm />
-            {this.props.tasks.map(task =>{if(task!==null){return <Task text={task.Name} status={task.State} cancel = {task.Cancel} Id={task.Id} key={uuidv4()} />}})}
+            <div className = "overflow-auto">
+              {this.props.tasks.map(task =>{if(task!==null){return <Task text={task.Name} status={task.State} cancel = {task.Cancel} Id={task.Id} key={uuidv4()} />}})}
+            </div>          
           </div>
         </div>
       </div>
